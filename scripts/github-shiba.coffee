@@ -6,6 +6,7 @@ exec = child_process.exec
 module.exports = (robot) ->
   robot.hear ///#{robot.name}\s+shiba\s+(.*)///i, (msg) ->
     msg.http("https://github.com/users/alice02/contributions").get() (err, res, body) ->
+      body = body.replace /class="js-calendar-graph-svg"/g, 'style="font-size: 10px; fill: #aaa;"'
       fs.writeFile "test.svg", body
       fs.readFile("test.svg")
       .then(svg2png)
